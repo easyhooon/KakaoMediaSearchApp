@@ -14,3 +14,10 @@ dependencyResolutionManagement {
 }
 rootProject.name = "KakaoMediaSearch"
 include ':app'
+include ':data'
+include ':domain'
+include ':core:ui'
+include ':core:util'
+include ':feature:search'
+include ':feature:favorites'
+

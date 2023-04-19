@@ -1,55 +1,40 @@
-@Suppress("DSL_SCOPE_VIOLATION")
+Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.kapt)
 }
 
 android {
-    namespace = "com.kenshi.kakaomediasearch"
+    namespace = "com.kenshi.favorites"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.kenshi.kakaomediasearch"
         minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        getByName("debug") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = "1.8"
     }
     buildFeatures {
-        compose =  true
+        compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.0-alpha02"
@@ -64,8 +49,6 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:util"))
-    implementation(project(":feature:search"))
-    implementation(project(":feature:favorites"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.runtime)
@@ -87,13 +70,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-
+    implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.splash)
-    implementation(libs.startup)
-    implementation(libs.timber)
-
-    coreLibraryDesugaring(libs.desugar.jdk)
 }
