@@ -8,9 +8,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,6 +26,8 @@ import com.kenshi.util.Screen
 fun KakaoMediaSearchApp() {
     val navHostController = rememberNavController()
     val backStackEntry by navHostController.currentBackStackEntryAsState()
+
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         modifier = Modifier,
@@ -63,7 +67,8 @@ fun KakaoMediaSearchApp() {
             SetupNavGraph(
                 modifier = Modifier.fillMaxSize(),
                 navController = navHostController,
-                startDestination = Screen.Search.route
+                startDestination = Screen.Search.route,
+                snackbarHostState = snackbarHostState
             )
         }
     }

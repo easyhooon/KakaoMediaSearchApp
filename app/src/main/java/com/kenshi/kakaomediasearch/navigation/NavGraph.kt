@@ -1,24 +1,45 @@
 package com.kenshi.kakaomediasearch.navigation
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.kenshi.favorites.navigation.favoritesRoute
 import com.kenshi.search.navigation.searchRoute
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun SetupNavGraph(
     modifier: Modifier = Modifier,
     startDestination: String,
-    navController: NavHostController
+    navController: NavHostController,
+    snackbarHostState: SnackbarHostState,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination,
     ) {
-        searchRoute()
+        searchRoute(
+            showSnackbar = { errorMsg ->
+                snackbarHostState.showMessage(coroutineScope, errorMsg)
+            }
+        )
         favoritesRoute()
+    }
+}
+
+private fun SnackbarHostState.showMessage(
+    coroutineScope: CoroutineScope,
+    text: String,
+) {
+    coroutineScope.launch {
+        currentSnackbarData?.dismiss()
+        showSnackbar(text)
     }
 }

@@ -12,7 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(
+    showSnackbar: (String) -> Unit
+) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
