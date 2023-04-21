@@ -1,0 +1,70 @@
+package com.kenshi.data.di
+
+import com.kenshi.data.BuildConfig
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.header
+import io.ktor.http.URLProtocol
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object ServiceModule {
+
+    @Singleton
+    @Provides
+    fun provideKtorHttpClient(): HttpClient {
+        return HttpClient(CIO) {
+            defaultRequest {
+                header("Authorization", BuildConfig.KAKAO_API_KEY)
+
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = "https://dapi.kakao.com/"
+                }
+            }
+            /* deprecated
+            install(JsonFeature) {
+                serializer = KotlinxSerializaer(json)
+            }
+            */
+
+            // 아래의 코드로 대체
+            install(ContentNegotiation) {
+                json(Json {
+                    // null 인 값도 json에 포함 시킴
+                    encodeDefaults = true
+                    // 알 수 없는 값 무시(모델에 없고, json에 있는 경우)
+                    ignoreUnknownKeys = true
+                    // Json String 이쁘게 출력
+                    prettyPrint = true
+                    // 따옴표 규칙 완화(RFC-4627)
+                    isLenient = true
+                })
+            }
+
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.ALL
+            }
+            install(HttpTimeout) {
+                socketTimeoutMillis = 15_000
+                requestTimeoutMillis = 15_000
+                connectTimeoutMillis = 15_000
+            }
+        }
+    }
+}
