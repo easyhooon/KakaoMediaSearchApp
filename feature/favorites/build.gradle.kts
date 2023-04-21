@@ -1,4 +1,4 @@
-Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.kenshi.favorites"
+    namespace = "com.kenshi.feature.favorites"
     compileSdk = 33
 
     defaultConfig {
@@ -49,6 +49,7 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:util"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.runtime)
@@ -73,5 +74,4 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
 }

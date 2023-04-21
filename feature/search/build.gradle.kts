@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.kenshi.search"
+    namespace = "com.kenshi.feature.search"
     compileSdk = 33
 
     defaultConfig {
@@ -49,6 +49,7 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:util"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.runtime)
@@ -70,7 +71,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 }
