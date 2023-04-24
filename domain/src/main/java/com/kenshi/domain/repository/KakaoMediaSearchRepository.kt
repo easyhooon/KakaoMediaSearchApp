@@ -9,14 +9,14 @@ interface KakaoMediaSearchRepository {
     // Image, Video 함수의 반환 타입을 공통 타입으로 변환
     fun getKakaoImageSearchList(
         query: String,
-        sort: KakaoMediaSearchSortType,
+        sortType: KakaoMediaSearchSortType,
         page: Int,
         size: Int,
     ): Flow<ApiResult<KakaoMediaSearchEntity>>
 
     fun getKakaoVideoSearchList(
         query: String,
-        sort: KakaoMediaSearchSortType,
+        sortType: KakaoMediaSearchSortType,
         page: Int,
         size: Int
     ): Flow<ApiResult<KakaoMediaSearchEntity>>

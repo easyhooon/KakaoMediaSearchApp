@@ -16,23 +16,23 @@ class KakaoMediaSearchRepositoryImpl @Inject constructor(
 ):KakaoMediaSearchRepository {
     override fun getKakaoImageSearchList(
         query: String,
-        sort: KakaoMediaSearchSortType,
+        sortType: KakaoMediaSearchSortType,
         page: Int,
         size: Int
     ): Flow<ApiResult<KakaoMediaSearchEntity>> {
         return safeFlow {
-            kakaoMediaSearchRemoteDataSource.getKakaoImageSearch(query, sort.value, page, size).toDomain()
+            kakaoMediaSearchRemoteDataSource.getKakaoImageSearch(query, sortType.value, page, size).toDomain()
         }
     }
 
     override fun getKakaoVideoSearchList(
         query: String,
-        sort: KakaoMediaSearchSortType,
+        sortType: KakaoMediaSearchSortType,
         page: Int,
         size: Int
     ): Flow<ApiResult<KakaoMediaSearchEntity>> {
         return safeFlow {
-            kakaoMediaSearchRemoteDataSource.getKakaoVideoSearch(query, sort.value, page, size).toDomain()
+            kakaoMediaSearchRemoteDataSource.getKakaoVideoSearch(query, sortType.value, page, size).toDomain()
         }
     }
 }
