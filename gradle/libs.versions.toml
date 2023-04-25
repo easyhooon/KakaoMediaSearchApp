@@ -1,7 +1,7 @@
 [versions]
 
 # gradle
-android-gradle-plugin = "7.4.1"
+android-gradle-plugin = "7.4.2"
 secrets-gradle-plugin = "2.0.1"
 
 # androidx
