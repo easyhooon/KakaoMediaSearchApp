@@ -1,4 +1,4 @@
-package com.kenshi.kakaomediasearch.ui.theme
+package com.kenshi.ui.theme
 
 import android.app.Activity
 import android.os.Build

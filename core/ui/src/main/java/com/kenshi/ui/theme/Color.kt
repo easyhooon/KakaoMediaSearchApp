@@ -1,4 +1,4 @@
-package com.kenshi.kakaomediasearch.ui.theme
+package com.kenshi.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
