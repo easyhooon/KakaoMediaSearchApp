@@ -1,7 +1,10 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    `java-library`
+    id("java-library")
     kotlin("jvm")
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 java {
