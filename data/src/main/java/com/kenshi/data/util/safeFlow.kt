@@ -2,8 +2,10 @@ package com.kenshi.data.util
 
 import com.kenshi.domain.util.ApiResult
 import io.ktor.client.plugins.ResponseException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 fun <T> safeFlow(execute: suspend () -> T): Flow<ApiResult<T>> = flow {
     try {
@@ -14,4 +16,4 @@ fun <T> safeFlow(execute: suspend () -> T): Flow<ApiResult<T>> = flow {
     } catch (exception: Exception) {
         emit(ApiResult.Exception(exception = exception))
     }
-}
+}.flowOn(Dispatchers.IO)
