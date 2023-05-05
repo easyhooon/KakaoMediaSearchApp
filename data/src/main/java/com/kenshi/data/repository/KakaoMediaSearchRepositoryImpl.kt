@@ -1,6 +1,6 @@
 package com.kenshi.data.repository
 
-import com.kenshi.data.mapper.toDomain
+import com.kenshi.data.mapper.toEntity
 import com.kenshi.data.source.remote.KakaoMediaSearchRemoteDataSource
 import com.kenshi.data.util.safeFlow
 import com.kenshi.domain.entity.search.KakaoMediaSearchEntity
@@ -21,7 +21,7 @@ class KakaoMediaSearchRepositoryImpl @Inject constructor(
         size: Int
     ): Flow<ApiResult<KakaoMediaSearchEntity>> {
         return safeFlow {
-            kakaoMediaSearchRemoteDataSource.getKakaoImageSearch(query, sortType.value, page, size).toDomain()
+            kakaoMediaSearchRemoteDataSource.getKakaoImageSearch(query, sortType.value, page, size).toEntity()
         }
     }
 
@@ -32,7 +32,7 @@ class KakaoMediaSearchRepositoryImpl @Inject constructor(
         size: Int
     ): Flow<ApiResult<KakaoMediaSearchEntity>> {
         return safeFlow {
-            kakaoMediaSearchRemoteDataSource.getKakaoVideoSearch(query, sortType.value, page, size).toDomain()
+            kakaoMediaSearchRemoteDataSource.getKakaoVideoSearch(query, sortType.value, page, size).toEntity()
         }
     }
 }

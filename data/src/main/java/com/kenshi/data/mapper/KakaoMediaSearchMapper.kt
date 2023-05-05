@@ -4,14 +4,14 @@ import android.annotation.SuppressLint
 import com.kenshi.data.model.image.KakaoImageSearchResponse
 import com.kenshi.data.model.video.KakaoVideoSearchResponse
 import com.kenshi.domain.entity.search.KakaoMediaSearchEntity
-import com.kenshi.domain.model.KakaoMediaSearchModel
+import com.kenshi.domain.model.KakaoMediaSearchInfo
 import com.kenshi.domain.model.KakaoMediaSearchType
 
 @SuppressLint("NewApi")
-fun KakaoImageSearchResponse.toDomain() = KakaoMediaSearchEntity(
+fun KakaoImageSearchResponse.toEntity() = KakaoMediaSearchEntity(
     isEnd = this.meta.isEnd,
     itemList = this.documents.map { document ->
-        KakaoMediaSearchModel(
+        KakaoMediaSearchInfo(
             title = document.siteName,
             url = document.url,
             originalUrl = document.imageUrl,
@@ -22,10 +22,10 @@ fun KakaoImageSearchResponse.toDomain() = KakaoMediaSearchEntity(
     }
 )
 
-fun KakaoVideoSearchResponse.toDomain() = KakaoMediaSearchEntity(
+fun KakaoVideoSearchResponse.toEntity() = KakaoMediaSearchEntity(
     isEnd = this.meta.isEnd,
     itemList = this.documents.map { document ->
-        KakaoMediaSearchModel(
+        KakaoMediaSearchInfo(
             title = document.title,
             url = document.url,
             thumbnailUrl = document.thumbnailUrl,
