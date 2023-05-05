@@ -36,6 +36,11 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
     private val kakaoMediaSearchSortedList = mutableListOf<KakaoMediaSearchInfo>()
 
     // 이미지 및 비디오 검색 결과를 정렬하여 가져옵니다.
+    // 1. 쿼리가 변경되거나 새로고침이 필요한 경우 상태 및 목록을 초기화합니다
+    // 2. 이미지 및 비디오 검색 결과를 결합하고 정렬합니다
+    // 3. 즐겨찾기 목록을 가져옵니다.
+    // 4. 검색 결과의 각 항목에 대해 즐겨찾기 여부를 확인하고, 최종 결과를 생성합니다.
+    // 5. 검색 결과가 더이상 없거나 페이지 제한에 도달한 경우, ApiResult.Excecption을 반환합니다.
     operator fun invoke(
         page: Int,
         pageSize: Int = currentPageSize,
@@ -52,6 +57,7 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
 
         // 이미지 및 비디오 검색 결과를 결합
         while (kakaoMediaSearchSortedList.size < page * pageSize) {
+            // Check if both image and video are not pageable
             if (!imageSearchApiState.pageable && !videoSearchApiState.pageable) {
                 break
             }
@@ -79,6 +85,7 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
                 ).forEach { apiState ->
                     launch {
                         apiState.apply {
+                            // Get image search result
                             if (pageable) {
                                 if (mediaList.isNotEmpty()) {
                                     return@launch
@@ -87,17 +94,15 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
                                     when (apiResult) {
                                         is ApiResult.Success -> {
                                             mediaList.addAll(apiResult.data.itemList)
-                                            nextPage++
+                                            nextPage += 1
                                             if (apiResult.data.isEnd) {
                                                 pageable = false
                                             }
                                         }
-
                                         is ApiResult.Error -> {
                                             send(apiResult)
                                             this@channelFlow.cancel()
                                         }
-
                                         is ApiResult.Exception -> {
                                             send(apiResult)
                                             this@channelFlow.cancel()
@@ -109,8 +114,7 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
                     }
                 }
             }
-
-            // limit page 확인
+            // Check api limit page
             if (imageSearchApiState.nextPage > ImagePageLimit) {
                 imageSearchApiState.pageable = false
             }
@@ -125,22 +129,27 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
             val imageList = imageSearchApiState.mediaList
             val videoList = videoSearchApiState.mediaList
 
+            // 아무리 봐도 반대 같은데
             when {
                 imageList.isEmpty() && videoList.isEmpty() -> {
                     break
                 }
+
                 imageList.isEmpty() -> {
                     hasLessDateType = videoList
                     hasMoreDateType = mutableListOf()
                 }
+
                 videoList.isEmpty() -> {
                     hasLessDateType = imageList
                     hasMoreDateType = mutableListOf()
                 }
+
                 imageList.last().dateTime > videoList.last().dateTime -> {
                     hasLessDateType = imageList
                     hasMoreDateType = videoList
                 }
+
                 else -> {
                     hasLessDateType = videoList
                     hasMoreDateType = imageList
@@ -152,7 +161,7 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
             tempMediaList.addAll(hasLessDateType)
             hasLessDateType.clear()
 
-            // hasMoreDateType 의 리스트를 tempMediaList 에 넣어주고, hasMoreDateType 은 clear
+            // hasMoreDateType 의 리스트 중 lastDateTime 보다 큰 원소만 tempMediaList 에 넣어주고, hasMoreDateType 은 clear
             hasMoreDateType.toList().forEach {
                 if (it.dateTime > lastDateTime) {
                     tempMediaList.add(it)
@@ -161,9 +170,10 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
             }
 
             // tempMediaList 를 dateTime 기준 내림차순(최신순)으로 정렬
-            tempMediaList.sortByDescending { mediaInfo ->
-                mediaInfo.dateTime
+            tempMediaList.sortByDescending {
+                it.dateTime
             }
+
             kakaoMediaSearchSortedList.addAll(tempMediaList)
         }
 
@@ -180,7 +190,6 @@ class GetKakaoMediaSearchSortedListUseCase @Inject constructor(
                         it
                     )
                 }
-
             if (imageSearchApiState.pageable || videoSearchApiState.pageable) {
                 send(
                     ApiResult.Success(
