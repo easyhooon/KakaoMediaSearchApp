@@ -1,6 +1,6 @@
 package com.kenshi.data.model.video
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,7 +9,7 @@ data class KakaoVideoSearchDocument(
     @SerialName("author")
     val author: String,
     @SerialName("datetime")
-    val datetime: LocalDate,
+    val datetime: Instant,
     @SerialName("play_time")
     val playTime: Int,
     @SerialName("thumbnail")

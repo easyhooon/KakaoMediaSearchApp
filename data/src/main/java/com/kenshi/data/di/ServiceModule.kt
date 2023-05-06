@@ -18,6 +18,7 @@ import io.ktor.client.request.header
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import java.net.URL
 import javax.inject.Singleton
 
 @Module
@@ -27,13 +28,16 @@ object ServiceModule {
     @Singleton
     @Provides
     fun provideKtorHttpClient(): HttpClient {
+        // CIO(Coroutine I/O) 를 client 엔진으로 사용
         return HttpClient(CIO) {
             defaultRequest {
                 header("Authorization", BuildConfig.KAKAO_API_KEY)
-
                 url {
+//                    protocol = URLProtocol.HTTPS
+//                    host = BASE_URL
+                    val parsedUrl = URL(BuildConfig.KAKAO_API_URL)
                     protocol = URLProtocol.HTTPS
-                    host = "https://dapi.kakao.com/"
+                    host = parsedUrl.host
                 }
             }
             /* deprecated
@@ -41,11 +45,10 @@ object ServiceModule {
                 serializer = KotlinxSerializaer(json)
             }
             */
-
             // 아래의 코드로 대체
             install(ContentNegotiation) {
                 json(Json {
-                    // null 인 값도 json에 포함 시킴
+                    // 기본 값을 가진 프로퍼티를 JSON에 포함시킴
                     encodeDefaults = true
                     // 알 수 없는 값 무시(모델에 없고, json에 있는 경우)
                     ignoreUnknownKeys = true
@@ -54,11 +57,12 @@ object ServiceModule {
                     // 따옴표 규칙 완화(RFC-4627)
                     isLenient = true
                 })
+//                json()
             }
 
             install(Logging) {
                 logger = Logger.DEFAULT
-                level = LogLevel.ALL
+                level = LogLevel.BODY
             }
             install(HttpTimeout) {
                 socketTimeoutMillis = 15_000
