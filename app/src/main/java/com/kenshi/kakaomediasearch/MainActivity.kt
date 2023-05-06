@@ -8,8 +8,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.kenshi.kakaomediasearch.ui.KakaoMediaSearchApp
-import com.kenshi.kakaomediasearch.ui.theme.KakaoMediaSearchTheme
+import com.kenshi.ui.theme.KakaoMediaSearchTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

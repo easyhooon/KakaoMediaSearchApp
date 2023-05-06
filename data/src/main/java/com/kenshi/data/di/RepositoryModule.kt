@@ -16,3 +16,12 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun provideKakaoMediaSearchRepository(kakaoMediaSearchRepositoryImpl: KakaoMediaSearchRepositoryImpl): KakaoMediaSearchRepository
 }
+
+//@Module
+//@InstallIn(SingletonComponent::class)
+//interface RepositoryModule {
+//
+//    @Binds
+//    @Singleton
+//    fun provideKakaoMediaSearchRepository(kakaoMediaSearchRepositoryImpl: KakaoMediaSearchRepositoryImpl): KakaoMediaSearchRepository
+//}
