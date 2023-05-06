@@ -30,7 +30,7 @@ import com.kenshi.ui.Elevation
 fun SearchTopBar(
     query: String,
     onTextChange: (String) -> Unit,
-    onSearchClick: (String) -> Unit,
+    onSearchClick: () -> Unit,
 ) {
     SearchWidget(
         query = query,
@@ -44,7 +44,7 @@ fun SearchTopBar(
 fun SearchWidget(
     query: String,
     onTextChange: (String) -> Unit,
-    onSearchClick: (String) -> Unit,
+    onSearchClick: () -> Unit,
 ) {
     Surface(
         modifier = Modifier
@@ -102,7 +102,7 @@ fun SearchWidget(
             ),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    onSearchClick(query)
+                    onSearchClick()
                 }
             ),
             colors = TextFieldDefaults.textFieldColors(

@@ -1,7 +1,6 @@
 package com.kenshi.kakaomediasearch.ui
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -65,7 +64,6 @@ fun KakaoMediaSearchApp() {
             modifier = Modifier.padding(contentPadding)
         ) {
             SetupNavGraph(
-                modifier = Modifier.fillMaxSize(),
                 navController = navHostController,
                 startDestination = Screen.Search.route,
                 snackbarHostState = snackbarHostState

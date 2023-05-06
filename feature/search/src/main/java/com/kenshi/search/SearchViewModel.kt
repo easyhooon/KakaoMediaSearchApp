@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -63,10 +64,16 @@ class SearchViewModel @Inject constructor(
                                 page = totalPage,
                                 mediaList = apiResult.data.itemList
                             )
+                            Timber.tag("searchMediaList").d("${_searchMediaList.value}")
                             _searchUiState.value = SearchUiState.SHOW_RESULT
                         }
                     }
-                    else -> {
+                    is ApiResult.Error -> {
+                        Timber.tag("searchMediaList").d("${apiResult.code}, ${apiResult.message}")
+                        _searchUiState.value = SearchUiState.ERROR
+                    }
+                    is ApiResult.Exception -> {
+                        Timber.tag("searchMediaList").d("${apiResult.exception} $apiResult")
                         _searchUiState.value = SearchUiState.ERROR
                     }
                 }

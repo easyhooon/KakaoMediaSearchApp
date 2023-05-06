@@ -3,7 +3,6 @@ package com.kenshi.kakaomediasearch.navigation
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.kenshi.favorites.navigation.favoritesRoute
@@ -13,7 +12,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SetupNavGraph(
-    modifier: Modifier = Modifier,
     startDestination: String,
     navController: NavHostController,
     snackbarHostState: SnackbarHostState,
@@ -21,9 +19,8 @@ fun SetupNavGraph(
     val coroutineScope = rememberCoroutineScope()
 
     NavHost(
-        modifier = modifier,
-        navController = navController,
         startDestination = startDestination,
+        navController = navController
     ) {
         searchRoute(
             showSnackbar = { errorMsg ->
