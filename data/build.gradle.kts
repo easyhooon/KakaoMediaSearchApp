@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.slf4j.android)
     implementation(libs.ktor.client.logging.jvm)
     implementation(libs.ktor.client.json)
     implementation(libs.ktor.serialization)
