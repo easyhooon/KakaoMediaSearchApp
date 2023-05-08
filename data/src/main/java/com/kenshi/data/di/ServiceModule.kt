@@ -57,9 +57,7 @@ object ServiceModule {
                     // 따옴표 규칙 완화(RFC-4627)
                     isLenient = true
                 })
-//                json()
             }
-
             install(Logging) {
                 logger = Logger.DEFAULT
                 level = LogLevel.BODY

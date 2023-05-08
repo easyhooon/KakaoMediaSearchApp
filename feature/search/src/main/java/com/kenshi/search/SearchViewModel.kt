@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kenshi.domain.usecase.search.GetKakaoMediaSearchSortedListUseCase
 import com.kenshi.domain.util.ApiResult
-import com.kenshi.search.component.mediaSearchListState
+import com.kenshi.search.component.MediaSearchListState
 import com.kenshi.util.Constants.KAKAO_SEARCH_PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,9 +33,9 @@ class SearchViewModel @Inject constructor(
         MutableStateFlow(SearchUiState.IDLE)
     val searchUiState: StateFlow<SearchUiState> = _searchUiState.asStateFlow()
 
-    private val _searchMediaList: MutableStateFlow<mediaSearchListState> =
-        MutableStateFlow(mediaSearchListState("", false, 1, listOf()))
-    val searchMediaList: StateFlow<mediaSearchListState> = _searchMediaList.asStateFlow()
+    private val _searchMediaList: MutableStateFlow<MediaSearchListState> =
+        MutableStateFlow(MediaSearchListState("", false, 1, listOf()))
+    val searchMediaList: StateFlow<MediaSearchListState> = _searchMediaList.asStateFlow()
 
     fun onSearchClick(query: String) {
         _searchUiState.value = SearchUiState.LOADING
@@ -50,7 +50,7 @@ class SearchViewModel @Inject constructor(
                 when (apiResult) {
                     is ApiResult.Success -> {
                         if (apiResult.data.itemList.isEmpty()) {
-                            _searchMediaList.value = mediaSearchListState(
+                            _searchMediaList.value = MediaSearchListState(
                                 query = "",
                                 pageable = false,
                                 page = 1,
@@ -58,22 +58,21 @@ class SearchViewModel @Inject constructor(
                             )
                             _searchUiState.value = SearchUiState.EMPTY
                         } else {
-                            _searchMediaList.value = mediaSearchListState(
+                            _searchMediaList.value = MediaSearchListState(
                                 query = query,
                                 pageable = apiResult.data.isEnd.not(),
                                 page = totalPage,
                                 mediaList = apiResult.data.itemList
                             )
-                            Timber.tag("searchMediaList").d("${_searchMediaList.value}")
                             _searchUiState.value = SearchUiState.SHOW_RESULT
                         }
                     }
                     is ApiResult.Error -> {
-                        Timber.tag("searchMediaList").d("${apiResult.code}, ${apiResult.message}")
+                        Timber.tag("getMediaSearchList").d("${apiResult.code}, ${apiResult.message}")
                         _searchUiState.value = SearchUiState.ERROR
                     }
                     is ApiResult.Exception -> {
-                        Timber.tag("searchMediaList").d("${apiResult.exception} $apiResult")
+                        Timber.tag("getMediaSearchList").d("${apiResult.exception} $apiResult")
                         _searchUiState.value = SearchUiState.ERROR
                     }
                 }
@@ -88,6 +87,6 @@ class SearchViewModel @Inject constructor(
     // UiState 를 초기화
     fun onClear() {
         _searchUiState.value = SearchUiState.IDLE
-        _searchMediaList.value = mediaSearchListState("", false, 1, listOf())
+        _searchMediaList.value = MediaSearchListState("", false, 1, listOf())
     }
 }
