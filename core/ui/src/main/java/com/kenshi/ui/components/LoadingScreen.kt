@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoadingWheel() {
+fun LoadingScreen() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(
             modifier = Modifier
@@ -24,5 +24,5 @@ fun LoadingWheel() {
 @Preview
 @Composable
 fun LoadingWheelPreview() {
-    LoadingWheel()
+    LoadingScreen()
 }

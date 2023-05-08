@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 
+    implementation(libs.kotlinx.datetime)
+
     implementation(libs.coil.compose)
     implementation(libs.timber)
 }

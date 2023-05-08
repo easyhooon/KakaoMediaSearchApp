@@ -1,5 +1,6 @@
 package com.kenshi.search.component
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,18 +17,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import com.kenshi.search.SearchUiState
-import com.kenshi.ui.components.LoadingWheel
+import com.kenshi.ui.components.LoadingScreen
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     searchUiState: SearchUiState,
-    mediaSearchListState: mediaSearchListState,
+    mediaSearchListState: MediaSearchListState,
     onSearchClick: (String) -> Unit,
     onNextPage: (String, Int) -> Unit,
     onClear: () -> Unit,
@@ -45,12 +46,13 @@ fun SearchScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
+    val context = LocalContext.current
+
     val onSearchEvent = {
         if (searchQuery.isEmpty()) {
-            Timber.tag("onSearchEvent").d("searchQuery is Empty")
+            Toast.makeText(context, "검색어를 입력 해주세요", Toast.LENGTH_SHORT).show()
             // onError(queryLengthErrorMessage)
         } else if (searchUiState != SearchUiState.LOADING) {
-            Timber.tag("onSearchEvent").d(searchQuery)
             onSearchClick(searchQuery)
             //showBackButton = true
             coroutineScope.launch {
@@ -76,14 +78,13 @@ fun SearchScreen(
                     .fillMaxSize()
                     .padding(paddingValues = paddingValues)
             ) {
-                //TODO Empty Screen 과 ErrorScreen 분리
                 when (uiState.value) {
                     SearchUiState.IDLE -> {
                         SearchEmptyScreen()
                     }
 
                     SearchUiState.LOADING -> {
-                        LoadingWheel()
+                        LoadingScreen()
                     }
 
                     SearchUiState.EMPTY -> {
@@ -91,7 +92,7 @@ fun SearchScreen(
                     }
 
                     SearchUiState.ERROR -> {
-                        SearchEmptyScreen()
+                        SearchErrorScreen()
                     }
 
                     SearchUiState.SHOW_RESULT -> {
@@ -102,7 +103,7 @@ fun SearchScreen(
                             // weight 는 Column 내부에서 사용할 수 있음
                             //.weight(1f)
                             listState = listState,
-                            searchMediaList = mediaSearchListState,
+                            mediaSearchList = mediaSearchListState,
                             onNextPage = { page ->
                                 onNextPage(searchQuery, page)
                             },
