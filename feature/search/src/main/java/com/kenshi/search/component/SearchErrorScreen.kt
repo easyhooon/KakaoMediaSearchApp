@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun SearchEmptyScreen(
-    title: String = "검색어를 입력 해보세요",
-    subtitle: String = "사진과 영상을 한번에 찾을 수 있습니다"
+fun SearchErrorScreen(
+    title: String = "검색 결과가 존재하지 않습니다",
+    subtitle: String = "검색어가 올바른지 확인 해주세요"
 ) {
     Column (
         modifier = Modifier
