@@ -7,5 +7,5 @@
 - [x] Paging을 Paging3 Library를 사용하지 않고 직접 구현
 - [x] Jetpack Compose를 사용하여 미디어 검색 화면 구성(이미지,동영상 API를 동시에 사용하여 하나의 리스트로 조회) 
 - [ ] Jetpack Compose를 사용하여 즐겨찾기(Room을 사용) 화면 구성
-- [ ] Paging3 Library를 사용하여 미디어 검색 화면 구성(두 API 를 동시에 시용하여 하나의 리스트로 조회) 
+- [ ] Paging3 Library를 사용하여 미디어 검색 기능 구현
 
