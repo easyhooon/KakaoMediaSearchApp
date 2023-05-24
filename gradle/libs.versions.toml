@@ -5,7 +5,7 @@ android-gradle-plugin = "7.4.2"
 secrets-gradle-plugin = "2.0.1"
 
 # androidx
-androidx-activity-compose = "1.6.0"
+androidx-activity-compose = "1.7.2"
 androidx-appcompat = "1.6.1"
 androidx-core = "1.9.0"
 androidx-lifecycle-compose = "2.6.1"
