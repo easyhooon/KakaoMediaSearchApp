@@ -46,7 +46,7 @@ junit-ext = "1.1.5"
 
 accompanist = "0.28.0"
 ksp = "1.8.0-1.0.9"
-coil = "2.2.2"
+coil = "2.4.0"
 timber = "5.0.1"
 desugar-jdk = "2.0.3"
 splash = "1.0.0"
