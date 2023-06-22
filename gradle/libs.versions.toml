@@ -33,7 +33,7 @@ kotlinx-serialization-json = "1.5.0"
 kotlinx-datetime = "0.4.0"
 
 # hilt
-hilt = "2.45"
+hilt = "2.46.1"
 hilt-navigation-compose = "1.0.0"
 
 # retrofit
