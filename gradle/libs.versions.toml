@@ -23,7 +23,7 @@ androidx-test-ext-truth = "1.5.0"
 androidx-window = "1.1.0-beta01"
 androidx-hilt-navigation-compose = "1.0.0"
 androidx-paging = "3.1.1"
-androidx-compose-paging = "1.0.0-alpha18"
+androidx-compose-paging = "1.0.0-alpha20"
 androidx-compose-compiler = "1.4.1"
 
 # kotlin
